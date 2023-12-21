@@ -1,34 +1,7 @@
-#####################
-# Welcome to Cursor #
-#####################
-
-"""
-Step 1: Try generating with Cmd+K or Ctrl+K on a new line. Ask for CLI-based game of TicTacToe.
-
-Step 2: Hit Cmd+L or Ctrl+L and ask the chat what the code does. 
-   - Then, try running the code
-
-Step 3: Try highlighting all the code with your mouse, then hit Cmd+k or Ctrl+K. 
-   - Instruct it to change the game in some way (e.g. add colors, add a start screen, make it 4x4 instead of 3x3)
-
-Step 4: To try out cursor on your own projects, go to the file menu (top left) and open a folder.
-"""
-
-'''
-Make first number col, second row
-Add option to replay game
-Stop moves from being overwritten
-
-Add Validation
-'''
-
-# Generate me a CLI-based game of TicTacToe
 def print_board(board):
-    for index, row in enumerate(board):
-        print(" | ".join(row))
-        # if index != len(board)-1:
-        #     print("-"*9)
-    print("-"*33)
+    for row in board:
+        print(" | ".join([f'\033[91m{cell}\033[0m' if cell == 'X' else f'\033[94m{cell}\033[0m' if cell == 'O' else cell for cell in row]))
+    print("-"*30)
 
 
 def check_win(board):
@@ -48,11 +21,11 @@ def check_win(board):
     return False
 
 def error_message():
-    print("!!! Invalid move, try again.")
-    print("-"*33)
+    print(f"\033[91m!!! Invalid move, try again.\033[0m")
+    print("-"*30)
 
 def tictactoe():
-    print("New Game =====\n" + "-"*33)
+    print("\033[92m========== New Game ==========\033[0m\n" + "-"*30)
     board = [[" " for _ in range(3)] for _ in range(3)]
     player = "X"
     invalid = False
@@ -77,15 +50,16 @@ def tictactoe():
         board[row][col] = player
         invalid = False
         if check_win(board):
-            print("="*33)
-            print(f"::: Player {player} wins! :::")
+            print("="*30)
+            print_board(board)
+            print(f"\033[96m:::::: Player {player} wins! ::::::\033[0m")
             break
         player = "O" if player == "X" else "X"
     
 
 
 if __name__ == "__main__":
-    tictactoe()
-    replay = input("Do you want to play again? (y/n): ")
-    if replay.lower() == "y":
+    replay = "y"
+    while replay.lower() == "y":
         tictactoe()
+        replay = input("Do you want to play again? (y/n): ")
